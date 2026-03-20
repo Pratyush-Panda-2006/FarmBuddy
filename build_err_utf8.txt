@@ -1,0 +1,66 @@
+﻿
+> smart-ag@0.0.0 build
+> vite build
+
+node.exe : [31mfailed to 
+load config from D:\GDG\sma
+rt-ag\vite.config.js[39m
+At C:\Program 
+Files\nodejs\npm.ps1:29 
+char:3
++   & $NODE_EXE 
+$NPM_CLI_JS $args
++   ~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~
+    + CategoryInfo         
+     : NotSpecified: ([3  
+  1mfailed to ....config   
+ .js[39m:String) [], R    
+emoteException
+    + FullyQualifiedErrorI 
+   d : NativeCommandError
+ 
+[31merror during build:
+Error [ERR_PACKAGE_PATH_NOT
+_EXPORTED]: Package 
+subpath './internal' is 
+not defined by "exports" 
+in D:\GDG\smart-ag\node_mod
+ules\vite\package.json 
+imported from D:\GDG\smart-
+ag\node_modules\@vitejs\plu
+gin-react\dist\index.js
+    at exportsNotFound (nod
+e:internal/modules/esm/reso
+lve:314:10)
+    at 
+packageExportsResolve (node
+:internal/modules/esm/resol
+ve:661:9)
+    at packageResolve (node
+:internal/modules/esm/resol
+ve:774:12)
+    at moduleResolve (node:
+internal/modules/esm/resolv
+e:854:18)
+    at defaultResolve (node
+:internal/modules/esm/resol
+ve:984:11)
+    at ModuleLoader.default
+Resolve (node:internal/modu
+les/esm/loader:780:12)
+    at 
+#cachedDefaultResolve (node
+:internal/modules/esm/loade
+r:704:25)
+    at 
+ModuleLoader.resolve (node:
+internal/modules/esm/loader
+:687:38)
+    at ModuleLoader.getModu
+leJobForImport (node:intern
+al/modules/esm/loader:305:3
+8)
+    at ModuleJob._link (nod
+e:internal/modules/esm/modu
+le_job:137:49)[39m

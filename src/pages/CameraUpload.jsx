@@ -181,7 +181,6 @@ export default function CameraUpload() {
   return (
     <div className="absolute inset-0 bg-black flex flex-col z-50">
       <div className="absolute inset-0 opacity-40 bg-[url('https://images.unsplash.com/photo-1592982537447-6f2a6a0c6cdd?q=80&w=390&h=844&auto=format&fit=crop')] bg-cover bg-center">
-        {analyzing && <div className="scanning-line"></div>}
       </div>
       
       <div className="relative z-10 flex flex-col h-full p-6 pb-32 overflow-y-auto custom-scroll">
@@ -191,7 +190,7 @@ export default function CameraUpload() {
           </button>
           
           {analyzing && (
-            <span className="text-teal font-extrabold text-[9px] uppercase tracking-[0.2em] bg-black/40 backdrop-blur-xl px-4 py-2 rounded-lg border border-teal/30 shadow-lg animate-pulse">
+            <span className="text-teal font-extrabold text-sm uppercase tracking-[0.3em] bg-black/60 backdrop-blur-xl px-6 py-3 rounded-xl border-2 border-teal/50 shadow-2xl shadow-teal/20 animate-pulse">
               Analyzing...
             </span>
           )}
@@ -206,6 +205,8 @@ export default function CameraUpload() {
             <div className="absolute bottom-4 left-4 w-10 h-10 border-b-4 border-l-4 border-white/80 rounded-bl-xl z-20"></div>
             <div className="absolute bottom-4 right-4 w-10 h-10 border-b-4 border-r-4 border-white/80 rounded-br-xl z-20"></div>
             
+            {analyzing && <div className="scanning-line z-30"></div>}
+
             {imagePreview ? (
               <img src={imagePreview} className="absolute inset-0 w-full h-full object-cover z-10 blur-sm opacity-50" />
             ) : (

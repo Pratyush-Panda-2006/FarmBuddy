@@ -23,6 +23,30 @@ export default function Home() {
 
   const issuesPicked = scans.filter(s => s.severity && s.severity !== 'Healthy').length;
   const recentInsight = scans.length > 0 ? scans[0].diagnosis : "No scans yet";
+  const healthScore = scans.length > 0 ? Math.round(((scans.length - issuesPicked) / scans.length) * 100) : 100;
+
+  let healthStatus = "Good";
+  let healthColor = "text-teal";
+  let healthBg = "bg-teal/20";
+  let healthBorder = "border-teal/20";
+  let healthGlow1 = "bg-teal/10";
+  let healthGlow2 = "bg-sage/10";
+
+  if (healthScore < 50) {
+    healthStatus = "Critical";
+    healthColor = "text-coralRed";
+    healthBg = "bg-coralRed/20";
+    healthBorder = "border-coralRed/20";
+    healthGlow1 = "bg-coralRed/10";
+    healthGlow2 = "bg-coralRed/5";
+  } else if (healthScore < 80) {
+    healthStatus = "Fair";
+    healthColor = "text-amber-500";
+    healthBg = "bg-amber-500/20";
+    healthBorder = "border-amber-500/20";
+    healthGlow1 = "bg-amber-500/10";
+    healthGlow2 = "bg-amber-500/5";
+  }
 
   const getFilteredScans = () => {
     if (filter === 'Crops') return scans.filter(s => s.type === 'Crop' || s.identity?.toLowerCase().includes('plant'));
@@ -38,8 +62,8 @@ export default function Home() {
     <>
       <header className="flex justify-between items-center mb-6 mt-2">
         <div>
-          <p className="text-sage text-[11px] font-bold uppercase tracking-wider">{t("Welcome to FarmBuddy")}</p>
-          <h1 className="text-charcoal text-xl font-extrabold">{username}</h1>
+          <p className="text-charcoal text-sm font-black uppercase tracking-widest mb-1">{t("Welcome to FarmBuddy")}</p>
+          <h1 className="text-charcoal text-3xl font-black">{username}</h1>
         </div>
         <div className="relative">
           <div className="w-11 h-11 bg-white rounded-full border border-sage/30 flex items-center justify-center text-xl">
@@ -50,13 +74,22 @@ export default function Home() {
       </header>
 
       {/* Main Stats Card */}
-      <div className="bg-charcoal rounded-[20px] p-6 text-white mb-6 relative overflow-hidden shadow-xl">
-        <div className="absolute top-0 right-0 w-32 h-32 bg-white/5 rounded-full -mr-16 -mt-16"></div>
-        <p className="text-white/50 text-xs font-semibold uppercase tracking-wider mb-2">{t("Overall Health")}</p>
-        <h2 className="text-[32px] font-black tracking-tighter mb-4">{t("Good")}</h2>
-        <div className="flex items-center gap-1.5 text-[11px] font-bold bg-teal/20 w-fit px-3 py-1.5 rounded-lg">
-          <TrendingUp className="text-teal w-4 h-4" />
-          <span className="text-teal">{scans.length > 0 ? `${Math.round(((scans.length - issuesPicked) / scans.length) * 100)}%` : '100%'} Healthy</span>
+      <div className="bg-charcoal rounded-[24px] p-8 text-white mb-6 relative overflow-hidden shadow-2xl bg-gradient-to-br from-charcoal to-[#2A332E]">
+        <div className={`absolute top-0 right-0 w-48 h-48 ${healthGlow1} rounded-full blur-2xl -mr-10 -mt-10 animate-pulse`}></div>
+        <div className={`absolute bottom-0 right-10 w-32 h-32 ${healthGlow2} rounded-full blur-xl -mb-10 animate-pulse`} style={{ animationDelay: '1.5s' }}></div>
+        
+        <div className="flex justify-between items-center relative z-10">
+          <div>
+            <p className="text-sage/80 text-sm font-bold uppercase tracking-widest mb-2">{t("Overall Health")}</p>
+            <h2 className="text-[42px] sm:text-[52px] font-black tracking-tighter leading-none mb-4 bg-gradient-to-r from-white to-offWhite bg-clip-text text-transparent">{t(healthStatus)}</h2>
+          </div>
+          
+          <div className="flex flex-col items-end shrink-0">
+            <div className={`flex items-center gap-2 text-sm font-black ${healthBg} backdrop-blur-md px-4 py-3 rounded-xl border ${healthBorder} shadow-lg`}>
+              <TrendingUp className={`${healthColor} w-5 h-5`} />
+              <span className={healthColor}>{healthScore}% Healthy</span>
+            </div>
+          </div>
         </div>
       </div>
 

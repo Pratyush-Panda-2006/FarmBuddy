@@ -10,12 +10,14 @@ import Profile from './pages/Profile';
 import Weather from './pages/Weather';
 import ChatAssistant from './pages/ChatAssistant';
 import FarmMap from './pages/FarmMap';
+import LandingPage from './pages/LandingPage';
 
 function App() {
   return (
     <ThemeProvider>
       <Router>
         <Routes>
+          <Route path="/landing" element={<LandingPage />} />
           <Route path="/login" element={<Login />} />
           <Route element={<Layout />}>
             <Route path="/" element={<Home />} />
@@ -34,3 +36,4 @@ function App() {
 }
 
 export default App;
+

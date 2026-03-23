@@ -179,36 +179,36 @@ export default function Dashboard() {
   return (
     <>
       <header className="mb-6 mt-2">
-        <h2 className="text-charcoal dark:text-white font-black text-2xl tracking-tighter">{t("Dashboard")}</h2>
-        <p className="text-sage font-semibold text-xs mt-1">{t("Predictive Health & Yield Analytics")}</p>
+        <h2 className="font-display text-charcoalDark dark:text-white text-3xl sm:text-4xl uppercase leading-none">{t("Dashboard")}</h2>
+        <p className="font-display tracking-widest uppercase text-charcoalDark/50 dark:text-white/50 text-[10px] mt-2">{t("Predictive Health & Yield Analytics")}</p>
       </header>
 
       {/* Quick Stats */}
-      <div className="grid grid-cols-4 gap-2 mb-6">
-        <div className="bg-charcoal rounded-2xl p-3 text-center text-white">
-          <p className="text-[8px] font-bold uppercase tracking-widest text-white/50">Livestock</p>
-          <p className="text-xl font-black">{livestockScans.length}</p>
+      <div className="grid grid-cols-4 gap-2 mb-8">
+        <div className="bg-charcoalDark rounded-xl p-3 sm:p-4 text-center text-white shadow-sm">
+          <p className="font-display tracking-widest text-[8px] sm:text-[10px] uppercase text-white/50 mb-1">Livestock</p>
+          <p className="font-display text-2xl sm:text-3xl">{livestockScans.length}</p>
         </div>
-        <div className="bg-charcoal rounded-2xl p-3 text-center text-white">
-          <p className="text-[8px] font-bold uppercase tracking-widest text-white/50">Crops</p>
-          <p className="text-xl font-black">{cropScans.length}</p>
+        <div className="bg-charcoalDark rounded-xl p-3 sm:p-4 text-center text-white shadow-sm">
+          <p className="font-display tracking-widest text-[8px] sm:text-[10px] uppercase text-white/50 mb-1">Crops</p>
+          <p className="font-display text-2xl sm:text-3xl">{cropScans.length}</p>
         </div>
-        <div className="bg-charcoal rounded-2xl p-3 text-center text-white">
-          <p className="text-[8px] font-bold uppercase tracking-widest text-white/50">Avg HP</p>
-          <p className={`text-xl font-black ${avgHealth >= 80 ? 'text-teal' : avgHealth >= 50 ? 'text-amber-400' : 'text-coralRed'}`}>{avgHealth}%</p>
+        <div className="bg-charcoalDark rounded-xl p-3 sm:p-4 text-center text-white shadow-sm">
+          <p className="font-display tracking-widest text-[8px] sm:text-[10px] uppercase text-white/50 mb-1">Avg HP</p>
+          <p className={`font-display text-2xl sm:text-3xl ${avgHealth >= 80 ? 'text-teal' : avgHealth >= 50 ? 'text-amber-500' : 'text-coralRed'}`}>{avgHealth}%</p>
         </div>
-        <div className="bg-coralRed/10 rounded-2xl p-3 text-center border border-coralRed/20">
-          <p className="text-[8px] font-bold uppercase tracking-widest text-coralRed/60">Alerts</p>
-          <p className="text-xl font-black text-coralRed">{criticalAlerts}</p>
+        <div className="bg-[#f8f9fa] dark:bg-coralRed/5 rounded-xl p-3 sm:p-4 text-center border border-coralRed/20 shadow-sm">
+          <p className="font-display tracking-widest text-[8px] sm:text-[10px] uppercase text-coralRed/80 mb-1">Alerts</p>
+          <p className="font-display text-2xl sm:text-3xl text-coralRed">{criticalAlerts}</p>
         </div>
       </div>
 
       {/* Tabs */}
-      <div className="flex gap-2 mb-6">
-        <button onClick={() => setActiveTab('livestock')} className={`flex-1 py-3 rounded-xl text-xs font-black uppercase tracking-wider transition-all ${activeTab === 'livestock' ? 'bg-charcoal text-white shadow-lg' : 'bg-white dark:bg-charcoal/40 text-charcoal dark:text-white/70 border border-sage/20 dark:border-white/10'}`}>
+      <div className="flex gap-2 mb-8">
+        <button onClick={() => setActiveTab('livestock')} className={`flex-1 py-3 sm:py-4 rounded-xl font-display text-xs sm:text-sm uppercase tracking-widest transition-all ${activeTab === 'livestock' ? 'bg-charcoalDark text-white shadow-md' : 'bg-[#f8f9fa] dark:bg-white/5 text-charcoalDark/60 dark:text-white/60 border border-charcoalDark/10 dark:border-white/10 hover:border-charcoalDark/30'}`}>
           🐄 Livestock
         </button>
-        <button onClick={() => setActiveTab('crops')} className={`flex-1 py-3 rounded-xl text-xs font-black uppercase tracking-wider transition-all ${activeTab === 'crops' ? 'bg-charcoal text-white shadow-lg' : 'bg-white dark:bg-charcoal/40 text-charcoal dark:text-white/70 border border-sage/20 dark:border-white/10'}`}>
+        <button onClick={() => setActiveTab('crops')} className={`flex-1 py-3 sm:py-4 rounded-xl font-display text-xs sm:text-sm uppercase tracking-widest transition-all ${activeTab === 'crops' ? 'bg-charcoalDark text-white shadow-md' : 'bg-[#f8f9fa] dark:bg-white/5 text-charcoalDark/60 dark:text-white/60 border border-charcoalDark/10 dark:border-white/10 hover:border-charcoalDark/30'}`}>
           🌾 Crops
         </button>
       </div>
@@ -217,83 +217,86 @@ export default function Dashboard() {
         <div className="space-y-4 pb-28">
           {/* Breed Registry */}
           {uniqueBreeds.length > 0 && (
-            <div className="bg-white dark:bg-charcoal/60 rounded-[20px] p-5 border border-sage/10 dark:border-white/10 shadow-sm">
-              <p className="text-[10px] text-sage font-bold uppercase tracking-widest mb-3">Detected Breeds</p>
+            <div className="bg-[#f8f9fa] dark:bg-white/5 rounded-xl p-5 sm:p-6 border border-charcoalDark/10 dark:border-white/10 shadow-sm">
+              <p className="font-display text-[10px] sm:text-xs text-charcoalDark/50 dark:text-white/50 uppercase tracking-widest mb-4">Detected Breeds</p>
               <div className="flex flex-wrap gap-2">
                 {uniqueBreeds.map((b, i) => (
-                  <span key={i} className="bg-charcoal text-white text-[10px] font-bold px-3 py-1.5 rounded-lg">{b}</span>
+                  <span key={i} className="bg-charcoalDark text-white font-display text-[10px] sm:text-xs uppercase tracking-widest px-3 py-2 rounded-lg">{b}</span>
                 ))}
               </div>
             </div>
           )}
 
           {/* Milk Yield Tracker */}
-          <div className="bg-white dark:bg-charcoal/60 rounded-[20px] p-5 border border-sage/10 dark:border-white/10 shadow-sm">
+          <div className="bg-[#f8f9fa] dark:bg-white/5 rounded-xl p-5 sm:p-6 border border-charcoalDark/10 dark:border-white/10 shadow-sm">
             <div className="flex justify-between items-center mb-1">
               <div className="flex items-center gap-2">
                 <Milk className="w-4 h-4 text-teal" />
-                <p className="text-[10px] text-sage font-bold uppercase tracking-widest">Milk Yield (Litres)</p>
+                <p className="font-display text-[10px] sm:text-xs text-charcoalDark/50 dark:text-white/50 uppercase tracking-widest">Milk Yield (Litres)</p>
               </div>
               {milkLog.length > 0 && (
-                <button onClick={() => clearLog(STORAGE_KEYS.MILK_YIELD, setMilkLog)} className="text-coralRed"><Trash2 className="w-3.5 h-3.5" /></button>
+                <button onClick={() => clearLog(STORAGE_KEYS.MILK_YIELD, setMilkLog)} className="text-coralRed/80 hover:text-coralRed"><Trash2 className="w-4 h-4" /></button>
               )}
             </div>
-            <div className="flex gap-2 mt-3">
-              <input value={milkAnimal} onChange={e => setMilkAnimal(e.target.value)} placeholder="Animal" className="flex-1 bg-offWhite dark:bg-white/10 h-10 rounded-xl px-3 text-xs font-bold text-charcoal dark:text-white placeholder-sage/50 outline-none border border-sage/20 dark:border-white/10 focus:border-teal transition-colors" />
-              <input value={milkInput} onChange={e => setMilkInput(e.target.value)} placeholder="Litres" type="number" className="w-20 bg-offWhite dark:bg-white/10 h-10 rounded-xl px-3 text-xs font-bold text-charcoal dark:text-white placeholder-sage/50 outline-none border border-sage/20 dark:border-white/10 focus:border-teal transition-colors" />
-              <button onClick={addMilkEntry} className="h-10 w-10 bg-teal rounded-xl flex items-center justify-center text-white shrink-0 active:scale-90 transition-transform"><Plus className="w-5 h-5" /></button>
+            <div className="flex gap-2 mt-4">
+              <input value={milkAnimal} onChange={e => setMilkAnimal(e.target.value)} placeholder="Animal" className="flex-1 bg-white dark:bg-charcoalDark h-12 rounded-lg px-4 font-body text-sm font-medium text-charcoalDark dark:text-white placeholder-charcoalDark/30 outline-none border border-charcoalDark/20 dark:border-white/10 focus:border-charcoalDark dark:focus:border-white transition-colors" />
+              <input value={milkInput} onChange={e => setMilkInput(e.target.value)} placeholder="Litres" type="number" className="w-24 bg-white dark:bg-charcoalDark h-12 rounded-lg px-4 font-body text-sm font-medium text-charcoalDark dark:text-white placeholder-charcoalDark/30 outline-none border border-charcoalDark/20 dark:border-white/10 focus:border-charcoalDark dark:focus:border-white transition-colors" />
+              <button onClick={addMilkEntry} className="h-12 w-12 bg-charcoalDark rounded-lg flex items-center justify-center text-white shrink-0 active:scale-95 transition-transform"><Plus className="w-5 h-5" /></button>
             </div>
-            {milkLog.length > 0 && <MiniBarChart data={chartData(milkLog)} color="#2ec4b6" />}
+            {milkLog.length > 0 && <MiniBarChart data={chartData(milkLog)} color="#171e19" />}
           </div>
 
           {/* Weight Tracker */}
-          <div className="bg-white rounded-[20px] p-5 border border-sage/10 shadow-sm">
+          <div className="bg-[#f8f9fa] dark:bg-white/5 rounded-xl p-5 sm:p-6 border border-charcoalDark/10 dark:border-white/10 shadow-sm">
             <div className="flex justify-between items-center mb-1">
               <div className="flex items-center gap-2">
                 <Weight className="w-4 h-4 text-amber-500" />
-                <p className="text-[10px] text-sage font-bold uppercase tracking-widest">Weight Log (kg)</p>
+                <p className="font-display text-[10px] sm:text-xs text-charcoalDark/50 dark:text-white/50 uppercase tracking-widest">Weight Log (kg)</p>
               </div>
               {weightLog.length > 0 && (
-                <button onClick={() => clearLog(STORAGE_KEYS.WEIGHT, setWeightLog)} className="text-coralRed"><Trash2 className="w-3.5 h-3.5" /></button>
+                <button onClick={() => clearLog(STORAGE_KEYS.WEIGHT, setWeightLog)} className="text-coralRed/80 hover:text-coralRed"><Trash2 className="w-4 h-4" /></button>
               )}
             </div>
-            <div className="flex gap-2 mt-3">
-              <input value={weightAnimal} onChange={e => setWeightAnimal(e.target.value)} placeholder="Animal" className="flex-1 bg-offWhite dark:bg-white/10 h-10 rounded-xl px-3 text-xs font-bold text-charcoal dark:text-white placeholder-sage/50 outline-none border border-sage/20 dark:border-white/10 focus:border-teal transition-colors" />
-              <input value={weightInput} onChange={e => setWeightInput(e.target.value)} placeholder="Kg" type="number" className="w-20 bg-offWhite dark:bg-white/10 h-10 rounded-xl px-3 text-xs font-bold text-charcoal dark:text-white placeholder-sage/50 outline-none border border-sage/20 dark:border-white/10 focus:border-teal transition-colors" />
-              <button onClick={addWeightEntry} className="h-10 w-10 bg-amber-500 rounded-xl flex items-center justify-center text-white shrink-0 active:scale-90 transition-transform"><Plus className="w-5 h-5" /></button>
+            <div className="flex gap-2 mt-4">
+              <input value={weightAnimal} onChange={e => setWeightAnimal(e.target.value)} placeholder="Animal" className="flex-1 bg-white dark:bg-charcoalDark h-12 rounded-lg px-4 font-body text-sm font-medium text-charcoalDark dark:text-white placeholder-charcoalDark/30 outline-none border border-charcoalDark/20 dark:border-white/10 focus:border-charcoalDark dark:focus:border-white transition-colors" />
+              <input value={weightInput} onChange={e => setWeightInput(e.target.value)} placeholder="Kg" type="number" className="w-24 bg-white dark:bg-charcoalDark h-12 rounded-lg px-4 font-body text-sm font-medium text-charcoalDark dark:text-white placeholder-charcoalDark/30 outline-none border border-charcoalDark/20 dark:border-white/10 focus:border-charcoalDark dark:focus:border-white transition-colors" />
+              <button onClick={addWeightEntry} className="h-12 w-12 bg-amber-500 rounded-lg flex items-center justify-center text-white shrink-0 active:scale-95 transition-transform"><Plus className="w-5 h-5" /></button>
             </div>
             {weightLog.length > 0 && <MiniBarChart data={chartData(weightLog)} color="#f59e0b" />}
           </div>
 
           {/* AI Feed Optimizer */}
-          <div className="bg-gradient-to-br from-charcoal to-[#2A332E] rounded-[20px] p-5 text-white shadow-xl">
-            <div className="flex items-center gap-2 mb-3">
-              <Sparkles className="w-4 h-4 text-teal" />
-              <p className="text-[10px] font-bold uppercase tracking-widest text-white/60">AI Feed Optimizer</p>
-            </div>
-            <p className="text-white/40 text-[10px] mb-4">Analyzes your logged data and scanned breeds to generate an optimal feeding schedule.</p>
-            <button onClick={() => getAIPlan('feed')} disabled={loadingFeed} className="w-full bg-teal/20 border border-teal/30 text-teal font-bold text-xs uppercase tracking-widest py-3.5 rounded-xl active:scale-95 transition-all flex items-center justify-center gap-2 disabled:opacity-50">
-              {loadingFeed ? <><Loader2 className="w-4 h-4 animate-spin" /> Generating...</> : <><Sparkles className="w-4 h-4" /> Generate Feed Plan</>}
-            </button>
-            {feedPlan && (
-              <div className="mt-4 bg-white/10 backdrop-blur rounded-xl p-4 border border-white/10">
-                <p className="text-[10px] font-bold uppercase tracking-widest text-teal mb-2">Recommended Plan</p>
-                <div className="text-white/80 text-xs font-semibold leading-relaxed whitespace-pre-wrap">{feedPlan}</div>
+          <div className="bg-charcoalDark rounded-2xl p-6 sm:p-8 text-white shadow-xl relative overflow-hidden">
+            <div className="absolute top-0 right-0 w-48 h-48 bg-goldenYellow/10 rounded-full blur-3xl -mr-10 -mt-10 pointer-events-none"></div>
+            <div className="relative z-10">
+              <div className="flex items-center gap-2 mb-4">
+                <Sparkles className="w-5 h-5 text-goldenYellow" />
+                <p className="font-display text-[12px] uppercase tracking-widest text-goldenYellow">AI Feed Optimizer</p>
               </div>
-            )}
+              <p className="font-body text-white/50 text-sm mb-6 leading-relaxed">Analyzes your logged data and scanned breeds to generate an optimal feeding schedule based on brutal growth targets.</p>
+              <button onClick={() => getAIPlan('feed')} disabled={loadingFeed} className="w-full bg-goldenYellow text-charcoalDark font-display text-sm sm:text-base uppercase tracking-widest py-4 rounded-xl active:scale-[0.98] hover:brightness-105 transition-all flex items-center justify-center gap-2 disabled:opacity-50">
+                {loadingFeed ? <><Loader2 className="w-5 h-5 animate-spin" /> Generating...</> : <><Sparkles className="w-5 h-5" /> Generate Feed Plan</>}
+              </button>
+              {feedPlan && (
+                <div className="mt-6 bg-white/5 backdrop-blur rounded-xl p-5 sm:p-6 border border-white/10">
+                  <p className="font-display text-[10px] uppercase tracking-widest text-goldenYellow mb-4">Recommended Plan</p>
+                  <div className="font-body text-white/90 text-sm leading-relaxed whitespace-pre-wrap">{feedPlan}</div>
+                </div>
+              )}
+            </div>
           </div>
 
           {/* Health Trend */}
           {livestockScans.length > 0 && (
-            <div className="bg-white rounded-[20px] p-5 border border-sage/10 shadow-sm">
-              <div className="flex items-center gap-2 mb-1">
+            <div className="bg-[#f8f9fa] dark:bg-white/5 rounded-xl p-5 sm:p-6 border border-charcoalDark/10 dark:border-white/10 shadow-sm">
+              <div className="flex items-center gap-2 mb-2">
                 <TrendingUp className="w-4 h-4 text-teal" />
-                <p className="text-[10px] text-sage font-bold uppercase tracking-widest">Livestock Health Trend</p>
+                <p className="font-display text-[10px] sm:text-xs text-charcoalDark/50 dark:text-white/50 uppercase tracking-widest">Livestock Health Trend</p>
               </div>
               <MiniBarChart
                 data={[...livestockScans].reverse().slice(-7).map(s => ({ value: s.healthPercentage || 0, label: s.identity?.slice(0, 6) || '?' }))}
                 maxVal={100}
-                color="#2ec4b6"
+                color="#171e19"
               />
             </div>
           )}
@@ -302,83 +305,86 @@ export default function Dashboard() {
         <div className="space-y-4 pb-28">
           {/* Crop Registry */}  
           {uniqueCrops.length > 0 && (
-            <div className="bg-white rounded-[20px] p-5 border border-sage/10 shadow-sm">
-              <p className="text-[10px] text-sage font-bold uppercase tracking-widest mb-3">Detected Crops</p>
+            <div className="bg-[#f8f9fa] dark:bg-white/5 rounded-xl p-5 sm:p-6 border border-charcoalDark/10 dark:border-white/10 shadow-sm">
+              <p className="font-display text-[10px] sm:text-xs text-charcoalDark/50 dark:text-white/50 uppercase tracking-widest mb-4">Detected Crops</p>
               <div className="flex flex-wrap gap-2">
                 {uniqueCrops.map((c, i) => (
-                  <span key={i} className="bg-teal text-white text-[10px] font-bold px-3 py-1.5 rounded-lg">{c}</span>
+                  <span key={i} className="bg-charcoalDark text-white font-display text-[10px] sm:text-xs uppercase tracking-widest px-3 py-2 rounded-lg">{c}</span>
                 ))}
               </div>
             </div>
           )}
 
           {/* Crop Yield Tracker */}
-          <div className="bg-white rounded-[20px] p-5 border border-sage/10 shadow-sm">
+          <div className="bg-[#f8f9fa] dark:bg-white/5 rounded-xl p-5 sm:p-6 border border-charcoalDark/10 dark:border-white/10 shadow-sm">
             <div className="flex justify-between items-center mb-1">
               <div className="flex items-center gap-2">
                 <Wheat className="w-4 h-4 text-teal" />
-                <p className="text-[10px] text-sage font-bold uppercase tracking-widest">Crop Yield (kg)</p>
+                <p className="font-display text-[10px] sm:text-xs text-charcoalDark/50 dark:text-white/50 uppercase tracking-widest">Crop Yield (kg)</p>
               </div>
               {cropYieldLog.length > 0 && (
-                <button onClick={() => clearLog(STORAGE_KEYS.CROP_YIELD, setCropYieldLog)} className="text-coralRed"><Trash2 className="w-3.5 h-3.5" /></button>
+                <button onClick={() => clearLog(STORAGE_KEYS.CROP_YIELD, setCropYieldLog)} className="text-coralRed/80 hover:text-coralRed"><Trash2 className="w-4 h-4" /></button>
               )}
             </div>
-            <div className="flex gap-2 mt-3">
-              <input value={cropName} onChange={e => setCropName(e.target.value)} placeholder="Crop" className="flex-1 bg-offWhite dark:bg-white/10 h-10 rounded-xl px-3 text-xs font-bold text-charcoal dark:text-white placeholder-sage/50 outline-none border border-sage/20 dark:border-white/10 focus:border-teal transition-colors" />
-              <input value={cropInput} onChange={e => setCropInput(e.target.value)} placeholder="Kg" type="number" className="w-20 bg-offWhite dark:bg-white/10 h-10 rounded-xl px-3 text-xs font-bold text-charcoal dark:text-white placeholder-sage/50 outline-none border border-sage/20 dark:border-white/10 focus:border-teal transition-colors" />
-              <button onClick={addCropYieldEntry} className="h-10 w-10 bg-teal rounded-xl flex items-center justify-center text-white shrink-0 active:scale-90 transition-transform"><Plus className="w-5 h-5" /></button>
+            <div className="flex gap-2 mt-4">
+              <input value={cropName} onChange={e => setCropName(e.target.value)} placeholder="Crop" className="flex-1 bg-white dark:bg-charcoalDark h-12 rounded-lg px-4 font-body text-sm font-medium text-charcoalDark dark:text-white placeholder-charcoalDark/30 outline-none border border-charcoalDark/20 dark:border-white/10 focus:border-charcoalDark dark:focus:border-white transition-colors" />
+              <input value={cropInput} onChange={e => setCropInput(e.target.value)} placeholder="Kg" type="number" className="w-24 bg-white dark:bg-charcoalDark h-12 rounded-lg px-4 font-body text-sm font-medium text-charcoalDark dark:text-white placeholder-charcoalDark/30 outline-none border border-charcoalDark/20 dark:border-white/10 focus:border-charcoalDark dark:focus:border-white transition-colors" />
+              <button onClick={addCropYieldEntry} className="h-12 w-12 bg-charcoalDark rounded-lg flex items-center justify-center text-white shrink-0 active:scale-95 transition-transform"><Plus className="w-5 h-5" /></button>
             </div>
-            {cropYieldLog.length > 0 && <MiniBarChart data={chartData(cropYieldLog)} color="#2ec4b6" />}
+            {cropYieldLog.length > 0 && <MiniBarChart data={chartData(cropYieldLog)} color="#171e19" />}
           </div>
 
           {/* Growth Tracker */}
-          <div className="bg-white rounded-[20px] p-5 border border-sage/10 shadow-sm">
+          <div className="bg-[#f8f9fa] dark:bg-white/5 rounded-xl p-5 sm:p-6 border border-charcoalDark/10 dark:border-white/10 shadow-sm">
             <div className="flex justify-between items-center mb-1">
               <div className="flex items-center gap-2">
                 <TrendingUp className="w-4 h-4 text-amber-500" />
-                <p className="text-[10px] text-sage font-bold uppercase tracking-widest">Growth Log (cm)</p>
+                <p className="font-display text-[10px] sm:text-xs text-charcoalDark/50 dark:text-white/50 uppercase tracking-widest">Growth Log (cm)</p>
               </div>
               {growthLog.length > 0 && (
-                <button onClick={() => clearLog(STORAGE_KEYS.GROWTH, setGrowthLog)} className="text-coralRed"><Trash2 className="w-3.5 h-3.5" /></button>
+                <button onClick={() => clearLog(STORAGE_KEYS.GROWTH, setGrowthLog)} className="text-coralRed/80 hover:text-coralRed"><Trash2 className="w-4 h-4" /></button>
               )}
             </div>
-            <div className="flex gap-2 mt-3">
-              <input value={growthCrop} onChange={e => setGrowthCrop(e.target.value)} placeholder="Crop" className="flex-1 bg-offWhite dark:bg-white/10 h-10 rounded-xl px-3 text-xs font-bold text-charcoal dark:text-white placeholder-sage/50 outline-none border border-sage/20 dark:border-white/10 focus:border-teal transition-colors" />
-              <input value={growthInput} onChange={e => setGrowthInput(e.target.value)} placeholder="cm" type="number" className="w-20 bg-offWhite dark:bg-white/10 h-10 rounded-xl px-3 text-xs font-bold text-charcoal dark:text-white placeholder-sage/50 outline-none border border-sage/20 dark:border-white/10 focus:border-teal transition-colors" />
-              <button onClick={addGrowthEntry} className="h-10 w-10 bg-amber-500 rounded-xl flex items-center justify-center text-white shrink-0 active:scale-90 transition-transform"><Plus className="w-5 h-5" /></button>
+            <div className="flex gap-2 mt-4">
+              <input value={growthCrop} onChange={e => setGrowthCrop(e.target.value)} placeholder="Crop" className="flex-1 bg-white dark:bg-charcoalDark h-12 rounded-lg px-4 font-body text-sm font-medium text-charcoalDark dark:text-white placeholder-charcoalDark/30 outline-none border border-charcoalDark/20 dark:border-white/10 focus:border-charcoalDark dark:focus:border-white transition-colors" />
+              <input value={growthInput} onChange={e => setGrowthInput(e.target.value)} placeholder="cm" type="number" className="w-24 bg-white dark:bg-charcoalDark h-12 rounded-lg px-4 font-body text-sm font-medium text-charcoalDark dark:text-white placeholder-charcoalDark/30 outline-none border border-charcoalDark/20 dark:border-white/10 focus:border-charcoalDark dark:focus:border-white transition-colors" />
+              <button onClick={addGrowthEntry} className="h-12 w-12 bg-amber-500 rounded-lg flex items-center justify-center text-white shrink-0 active:scale-95 transition-transform"><Plus className="w-5 h-5" /></button>
             </div>
             {growthLog.length > 0 && <MiniBarChart data={chartData(growthLog)} color="#f59e0b" />}
           </div>
 
           {/* AI Fertilizer Optimizer */}
-          <div className="bg-gradient-to-br from-charcoal to-[#2A332E] rounded-[20px] p-5 text-white shadow-xl">
-            <div className="flex items-center gap-2 mb-3">
-              <Sparkles className="w-4 h-4 text-teal" />
-              <p className="text-[10px] font-bold uppercase tracking-widest text-white/60">AI Crop Optimizer</p>
-            </div>
-            <p className="text-white/40 text-[10px] mb-4">Analyzes your crop data, growth logs, and scan results to recommend optimal fertilizer and care schedules.</p>
-            <button onClick={() => getAIPlan('fertilizer')} disabled={loadingFertilizer} className="w-full bg-teal/20 border border-teal/30 text-teal font-bold text-xs uppercase tracking-widest py-3.5 rounded-xl active:scale-95 transition-all flex items-center justify-center gap-2 disabled:opacity-50">
-              {loadingFertilizer ? <><Loader2 className="w-4 h-4 animate-spin" /> Generating...</> : <><Sparkles className="w-4 h-4" /> Generate Care Plan</>}
-            </button>
-            {fertilizerPlan && (
-              <div className="mt-4 bg-white/10 backdrop-blur rounded-xl p-4 border border-white/10">
-                <p className="text-[10px] font-bold uppercase tracking-widest text-teal mb-2">Recommended Plan</p>
-                <div className="text-white/80 text-xs font-semibold leading-relaxed whitespace-pre-wrap">{fertilizerPlan}</div>
+          <div className="bg-charcoalDark rounded-2xl p-6 sm:p-8 text-white shadow-xl relative overflow-hidden">
+            <div className="absolute top-0 right-0 w-48 h-48 bg-goldenYellow/10 rounded-full blur-3xl -mr-10 -mt-10 pointer-events-none"></div>
+            <div className="relative z-10">
+              <div className="flex items-center gap-2 mb-4">
+                <Sparkles className="w-5 h-5 text-goldenYellow" />
+                <p className="font-display text-[12px] uppercase tracking-widest text-goldenYellow">AI Crop Optimizer</p>
               </div>
-            )}
+              <p className="font-body text-white/50 text-sm mb-6 leading-relaxed">Analyzes your crop data, growth logs, and scan results to recommend optimal fertilizer and care schedules.</p>
+              <button onClick={() => getAIPlan('fertilizer')} disabled={loadingFertilizer} className="w-full bg-goldenYellow text-charcoalDark font-display text-sm sm:text-base uppercase tracking-widest py-4 rounded-xl active:scale-[0.98] hover:brightness-105 transition-all flex items-center justify-center gap-2 disabled:opacity-50">
+                {loadingFertilizer ? <><Loader2 className="w-5 h-5 animate-spin" /> Generating...</> : <><Sparkles className="w-5 h-5" /> Generate Care Plan</>}
+              </button>
+              {fertilizerPlan && (
+                <div className="mt-6 bg-white/5 backdrop-blur rounded-xl p-5 sm:p-6 border border-white/10">
+                  <p className="font-display text-[10px] uppercase tracking-widest text-goldenYellow mb-4">Recommended Plan</p>
+                  <div className="font-body text-white/90 text-sm leading-relaxed whitespace-pre-wrap">{fertilizerPlan}</div>
+                </div>
+              )}
+            </div>
           </div>
 
           {/* Health Trend */}
           {cropScans.length > 0 && (
-            <div className="bg-white rounded-[20px] p-5 border border-sage/10 shadow-sm">
-              <div className="flex items-center gap-2 mb-1">
+            <div className="bg-[#f8f9fa] dark:bg-white/5 rounded-xl p-5 sm:p-6 border border-charcoalDark/10 dark:border-white/10 shadow-sm">
+              <div className="flex items-center gap-2 mb-2">
                 <TrendingUp className="w-4 h-4 text-teal" />
-                <p className="text-[10px] text-sage font-bold uppercase tracking-widest">Crop Health Trend</p>
+                <p className="font-display text-[10px] sm:text-xs text-charcoalDark/50 dark:text-white/50 uppercase tracking-widest">Crop Health Trend</p>
               </div>
               <MiniBarChart
                 data={[...cropScans].reverse().slice(-7).map(s => ({ value: s.healthPercentage || 0, label: s.identity?.slice(0, 6) || '?' }))}
                 maxVal={100}
-                color="#2ec4b6"
+                color="#171e19"
               />
             </div>
           )}

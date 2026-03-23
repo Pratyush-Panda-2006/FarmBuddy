@@ -15,9 +15,16 @@ export default {
         sage: "#a3b1ac",
         teal: "#2ec4b6",
         slate: "#2a3630",
+        // Landing page design system
+        goldenYellow: "#ffe17c",
+        charcoalDark: "#171e19",
+        darkGray: "#272727",
+        sageMuted: "#b7c6c2",
       },
       fontFamily: {
         sans: ['Inter', 'sans-serif'],
+        display: ['Anton', 'sans-serif'],
+        body: ['Satoshi', 'sans-serif'],
       },
       letterSpacing: {
         tighter: '-0.02em',

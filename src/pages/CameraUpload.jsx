@@ -197,33 +197,33 @@ CRITICAL INSTRUCTION: Translate the values of 'identity', 'diagnosis', 'severity
   };
 
   return (
-    <div className="absolute inset-0 bg-black flex flex-col z-50">
-      <div className="absolute inset-0 opacity-40 bg-[url('https://images.unsplash.com/photo-1592982537447-6f2a6a0c6cdd?q=80&w=390&h=844&auto=format&fit=crop')] bg-cover bg-center">
+    <div className="absolute inset-0 bg-charcoalDark flex flex-col z-50">
+      <div className="absolute inset-0 opacity-30 bg-[url('https://images.unsplash.com/photo-1592982537447-6f2a6a0c6cdd?q=80&w=390&h=844&auto=format&fit=crop')] bg-cover bg-center">
       </div>
       
       <div className="relative z-10 flex flex-col h-full p-6 pb-32 overflow-y-auto custom-scroll">
         <div className="flex justify-between items-center mb-auto pt-4 pb-6">
-          <button onClick={handleExit} className="w-10 h-10 rounded-xl bg-white/10 backdrop-blur-xl flex items-center justify-center text-white border border-white/10">
+          <button onClick={handleExit} className="w-12 h-12 rounded-xl bg-white/10 backdrop-blur-xl flex items-center justify-center text-white border border-white/20 hover:bg-white/20 transition-colors">
             <X className="w-6 h-6" />
           </button>
           
           {analyzing && (
-            <span className="text-teal font-extrabold text-sm uppercase tracking-[0.3em] bg-black/60 backdrop-blur-xl px-6 py-3 rounded-xl border-2 border-teal/50 shadow-2xl shadow-teal/20 animate-pulse">
+            <span className="text-goldenYellow font-display text-sm uppercase tracking-[0.3em] bg-charcoalDark/80 backdrop-blur-xl px-6 py-3 rounded-xl border border-goldenYellow/50 shadow-lg animate-pulse">
               Analyzing...
             </span>
           )}
-          <div className="w-10"></div>
+          <div className="w-12"></div>
         </div>
 
         {!result && (
-          <div className="relative w-full h-[50vh] min-h-[400px] mb-auto rounded-[30px] overflow-hidden bg-white/5 border border-sage/30 flex flex-col items-center justify-center shadow-2xl">
+          <div className="relative w-full h-[50vh] min-h-[400px] mb-auto rounded-2xl overflow-hidden bg-charcoalDark/50 border border-white/20 flex flex-col items-center justify-center shadow-2xl backdrop-blur-sm">
             {/* Viewfinder Corners */}
-            <div className="absolute top-4 left-4 w-10 h-10 border-t-4 border-l-4 border-white/80 rounded-tl-xl z-20"></div>
-            <div className="absolute top-4 right-4 w-10 h-10 border-t-4 border-r-4 border-white/80 rounded-tr-xl z-20"></div>
-            <div className="absolute bottom-4 left-4 w-10 h-10 border-b-4 border-l-4 border-white/80 rounded-bl-xl z-20"></div>
-            <div className="absolute bottom-4 right-4 w-10 h-10 border-b-4 border-r-4 border-white/80 rounded-br-xl z-20"></div>
+            <div className="absolute top-6 left-6 w-12 h-12 border-t-4 border-l-4 border-goldenYellow z-20"></div>
+            <div className="absolute top-6 right-6 w-12 h-12 border-t-4 border-r-4 border-goldenYellow z-20"></div>
+            <div className="absolute bottom-6 left-6 w-12 h-12 border-b-4 border-l-4 border-goldenYellow z-20"></div>
+            <div className="absolute bottom-6 right-6 w-12 h-12 border-b-4 border-r-4 border-goldenYellow z-20"></div>
             
-            {analyzing && <div className="scanning-line z-30"></div>}
+            {analyzing && <div className="scanning-line z-30 bg-goldenYellow"></div>}
 
             {imagePreview ? (
               <img src={imagePreview} className="absolute inset-0 w-full h-full object-cover z-10 blur-sm opacity-50" />
@@ -240,21 +240,21 @@ CRITICAL INSTRUCTION: Translate the values of 'identity', 'diagnosis', 'severity
             <canvas ref={canvasRef} className="hidden" />
 
             {!hasPermission && !analyzing && !imagePreview && (
-              <div className="z-20 text-center px-4">
-                <AlertCircle className="w-10 h-10 text-coralRed mx-auto mb-2" />
-                <p className="text-white font-bold text-sm">Camera Access Denied</p>
-                <p className="text-sage text-[10px] mt-1">Please allow camera permissions or use the upload button below.</p>
+              <div className="z-20 text-center px-6">
+                <AlertCircle className="w-12 h-12 text-coralRed mx-auto mb-4" />
+                <p className="font-display text-white text-xl uppercase tracking-widest mb-2">Camera Access Denied</p>
+                <p className="font-body text-white/70 text-sm">Please allow camera permissions or use the upload button below.</p>
               </div>
             )}
 
             {!analyzing && !imagePreview && (
-              <div className="absolute bottom-8 left-0 right-0 flex justify-center z-30">
+              <div className="absolute bottom-10 left-0 right-0 flex justify-center z-30">
                 <button 
                   onClick={handleLiveCapture}
                   disabled={!hasPermission}
-                  className={`w-20 h-20 bg-white/20 backdrop-blur-xl border-[6px] border-white rounded-full shadow-2xl flex items-center justify-center transition-all group ${!hasPermission ? 'opacity-50' : 'active:scale-95'}`}
+                  className={`w-24 h-24 bg-white/10 backdrop-blur-xl border-4 border-white rounded-full shadow-[0_0_40px_rgba(255,255,255,0.3)] flex items-center justify-center transition-all group ${!hasPermission ? 'opacity-50' : 'active:scale-95 hover:border-goldenYellow'}`}
                 >
-                  <div className="w-14 h-14 bg-white rounded-full group-active:scale-90 transition-transform"></div>
+                  <div className="w-16 h-16 bg-white rounded-full group-active:scale-90 transition-transform group-hover:bg-goldenYellow"></div>
                 </button>
               </div>
             )}
@@ -262,87 +262,92 @@ CRITICAL INSTRUCTION: Translate the values of 'identity', 'diagnosis', 'severity
         )}
 
         {!result && !analyzing && (
-           <div className="mt-6 flex justify-center">
+           <div className="mt-8 flex justify-center">
              <input type="file" accept="image/*" className="hidden" ref={fileInputRef} onChange={handleFileUpload} />
-             <button onClick={() => fileInputRef.current?.click()} className="flex items-center gap-3 bg-white/10 backdrop-blur-xl border border-white/20 px-6 py-4 rounded-2xl text-white font-bold text-xs uppercase tracking-widest active:scale-95 transition-transform shadow-lg">
+             <button onClick={() => fileInputRef.current?.click()} className="flex items-center gap-3 bg-white/10 backdrop-blur-xl border border-white/20 px-8 py-5 rounded-xl text-white font-display text-sm uppercase tracking-widest hover:bg-white/20 active:scale-95 transition-all shadow-lg">
                 <ImagePlus className="w-5 h-5" /> Upload from Gallery
              </button>
            </div>
         )}
 
         {result && (
-          <div className="bg-white rounded-[20px] p-6 mb-4 shadow-2xl animate-in slide-in-from-bottom">
-            {imagePreview && (
-               <div className="w-full h-48 rounded-xl overflow-hidden mb-5 border border-sage/20">
-                 <img src={imagePreview} alt="Scanned subject" className="w-full h-full object-cover" />
-               </div>
-            )}
-            <div className="flex items-center gap-4 mb-5">
-              <div className="w-14 h-14 bg-teal/10 rounded-xl flex items-center justify-center text-teal font-black text-xl border border-teal/20 shrink-0">
-                {result.healthPercentage}%
-              </div>
-              <div className="overflow-hidden">
-                <p className="text-[9px] text-sage font-bold uppercase tracking-widest truncate">Identified {result.type}</p>
-                <p className="text-charcoal font-black text-lg leading-tight truncate">{result.identity}</p>
-              </div>
-            </div>
-            
-            {/* Diagnosis + Severity + Urgency */}
-            <div className="border-t border-sage/10 pt-4 pb-2">
-               <p className="text-[9px] text-sage font-bold uppercase tracking-widest mb-1">Diagnosis</p>
-               <p className="font-extrabold text-charcoal">{result.diagnosis}</p>
-               <div className="flex flex-wrap gap-2 mt-3">
-                 <div className={`text-xs px-3 py-1.5 rounded-lg inline-block font-bold uppercase tracking-wider ${result.severity === 'Critical' ? 'bg-coralRed/10 text-coralRed' : result.severity === 'Healthy' ? 'bg-teal/10 text-teal' : 'bg-sage/20 text-charcoal'}`}>
-                   Severity: {result.severity}
+          <div className="bg-[#f8f9fa] dark:bg-charcoalDark w-full rounded-2xl shadow-2xl flex flex-col shrink-0 border border-charcoalDark/10 dark:border-white/10 animate-in slide-in-from-bottom-5 mt-8 mb-6">
+            <div className="p-6">
+              {imagePreview && (
+                 <div className="w-full h-48 rounded-xl overflow-hidden mb-6 border border-charcoalDark/10 dark:border-white/10 shadow-sm relative">
+                   <img src={imagePreview} alt="Scanned subject" className="w-full h-full object-cover" />
                  </div>
-                 {result.urgency && (
-                   <div className={`text-xs px-3 py-1.5 rounded-lg inline-block font-bold uppercase tracking-wider ${result.urgency === 'Immediate' ? 'bg-coralRed/10 text-coralRed border border-coralRed/20' : result.urgency === 'Within 24h' ? 'bg-amber-500/10 text-amber-600 border border-amber-500/20' : 'bg-teal/10 text-teal border border-teal/20'}`}>
-                     🕐 {result.urgency}
-                   </div>
-                 )}
-               </div>
-            </div>
-
-            {/* Affected Area */}
-            {result.affectedArea && (
-              <div className="border-t border-sage/10 pt-4 pb-2">
-                <p className="text-[9px] text-sage font-bold uppercase tracking-widest mb-1">Affected Area</p>
-                <p className="font-bold text-charcoal text-sm">{result.affectedArea}</p>
-              </div>
-            )}
-
-            {/* Possible Conditions */}
-            {result.possibleConditions && result.possibleConditions.length > 0 && (
-              <div className="border-t border-sage/10 pt-4 pb-2">
-                <p className="text-[9px] text-sage font-bold uppercase tracking-widest mb-2">Possible Conditions</p>
-                <div className="space-y-1.5">
-                  {result.possibleConditions.map((cond, i) => (
-                    <div key={i} className="flex items-center gap-2">
-                      <span className={`w-5 h-5 rounded-full flex items-center justify-center text-[9px] font-black text-white shrink-0 ${i === 0 ? 'bg-coralRed' : i === 1 ? 'bg-amber-500' : 'bg-sage'}`}>{i + 1}</span>
-                      <p className="text-sm font-semibold text-charcoal">{cond}</p>
-                    </div>
-                  ))}
+              )}
+              
+              <div className="flex items-center gap-4 mb-6 bg-white dark:bg-white/5 p-4 rounded-xl border border-charcoalDark/10 dark:border-white/10 shadow-sm">
+                <div className={`w-16 h-16 rounded-xl flex items-center justify-center font-display text-2xl border shrink-0 ${result.healthPercentage >= 80 ? 'bg-teal/10 text-teal border-teal/20' : result.healthPercentage >= 50 ? 'bg-amber-500/10 text-amber-500 border-amber-500/20' : 'bg-coralRed/10 text-coralRed border-coralRed/20'}`}>
+                  {result.healthPercentage || 0}%
+                </div>
+                <div className="overflow-hidden min-w-0">
+                  <p className="font-display text-charcoalDark/50 dark:text-white/50 text-[10px] uppercase tracking-widest truncate">Identified {result.type}</p>
+                  <p className="font-display text-charcoalDark dark:text-white text-2xl uppercase leading-tight truncate mt-1">{result.identity}</p>
                 </div>
               </div>
-            )}
-
-            {/* Immediate Care */}
-            {result.immediateCare && (
-              <div className="border-t border-sage/10 pt-4 pb-2">
-                <p className="text-[9px] text-sage font-bold uppercase tracking-widest mb-1">⚡ Immediate Care</p>
-                <p className="text-sm font-semibold text-charcoal leading-relaxed">{result.immediateCare}</p>
+              
+              {/* Diagnosis + Severity + Urgency */}
+              <div className="bg-white dark:bg-white/5 p-5 rounded-xl border border-charcoalDark/10 dark:border-white/10 shadow-sm mb-4 border-l-4" style={{ borderLeftColor: result.severity === 'Healthy' ? '#2ec4b6' : '#e63946' }}>
+                 <p className="font-display text-charcoalDark/50 dark:text-white/50 text-[10px] uppercase tracking-widest mb-2">Diagnosis</p>
+                 <p className="font-body font-bold text-charcoalDark dark:text-white text-base sm:text-lg">{result.diagnosis}</p>
+                 <div className="flex flex-wrap gap-2 mt-4">
+                   <div className={`font-display text-[10px] px-3 py-1.5 rounded-lg inline-block uppercase tracking-widest border ${result.severity === 'Critical' ? 'bg-coralRed/10 text-coralRed border-coralRed/20' : result.severity === 'Healthy' ? 'bg-teal/10 text-teal border-teal/20' : 'bg-charcoalDark/5 dark:bg-white/10 text-charcoalDark dark:text-white border-charcoalDark/10 dark:border-white/20'}`}>
+                     Severity: {result.severity}
+                   </div>
+                   {result.urgency && (
+                     <div className={`font-display text-[10px] px-3 py-1.5 rounded-lg inline-block uppercase tracking-widest border ${result.urgency === 'Immediate' ? 'bg-coralRed/10 text-coralRed border-coralRed/20' : result.urgency === 'Within 24h' ? 'bg-amber-500/10 text-amber-500 border-amber-500/20' : 'bg-teal/10 text-teal border-teal/20'}`}>
+                       🕐 {result.urgency}
+                     </div>
+                   )}
+                 </div>
               </div>
-            )}
-            
-            {/* Action Plan */}
-            <div className="border-t border-sage/10 pt-4 mb-5">
-              <p className="text-[9px] text-sage font-bold uppercase tracking-widest mb-2">Precaution & Action Plan</p>
-              <p className="text-sm font-semibold text-charcoal leading-relaxed whitespace-pre-wrap">{result.actionPlan}</p>
+
+              {/* Affected Area */}
+              {result.affectedArea && (
+                <div className="bg-white dark:bg-white/5 p-5 rounded-xl border border-charcoalDark/10 dark:border-white/10 shadow-sm mb-4">
+                  <p className="font-display text-charcoalDark/50 dark:text-white/50 text-[10px] uppercase tracking-widest mb-2">Affected Area</p>
+                  <p className="font-body font-medium text-charcoalDark dark:text-white text-sm sm:text-base">{result.affectedArea}</p>
+                </div>
+              )}
+
+              {/* Possible Conditions */}
+              {result.possibleConditions && result.possibleConditions.length > 0 && (
+                <div className="bg-white dark:bg-white/5 p-5 rounded-xl border border-charcoalDark/10 dark:border-white/10 shadow-sm mb-4">
+                  <p className="font-display text-charcoalDark/50 dark:text-white/50 text-[10px] uppercase tracking-widest mb-4">Possible Conditions</p>
+                  <div className="space-y-3">
+                    {result.possibleConditions.map((cond, i) => (
+                      <div key={i} className="flex items-start gap-3">
+                        <span className={`w-6 h-6 mt-0.5 rounded-lg flex items-center justify-center font-display text-[10px] text-white shrink-0 ${i === 0 ? 'bg-coralRed' : i === 1 ? 'bg-amber-500' : 'bg-charcoalDark/40 dark:bg-white/40'}`}>{i + 1}</span>
+                        <p className="font-body font-medium text-sm sm:text-base text-charcoalDark dark:text-white/90 leading-relaxed">{cond}</p>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              )}
+
+              {/* Immediate Care */}
+              {result.immediateCare && (
+                <div className="bg-amber-500/5 dark:bg-amber-500/10 p-5 rounded-xl border border-amber-500/20 shadow-sm mb-4 border-l-4 border-l-amber-500">
+                  <p className="font-display text-amber-600 dark:text-amber-500 text-[10px] uppercase tracking-widest mb-2">⚡ Immediate Care</p>
+                  <p className="font-body font-medium text-sm sm:text-base text-charcoalDark/90 dark:text-white/90 leading-relaxed">{result.immediateCare}</p>
+                </div>
+              )}
+              
+              {/* Action Plan */}
+              <div className="bg-white dark:bg-white/5 p-5 rounded-xl border border-charcoalDark/10 dark:border-white/10 shadow-sm mb-6 border-t-4 border-t-goldenYellow">
+                <p className="font-display text-charcoalDark/50 dark:text-white/50 text-[10px] uppercase tracking-widest mb-4">Precaution & Action Plan</p>
+                <div className="font-body font-medium text-sm sm:text-base text-charcoalDark/90 dark:text-white/90 leading-relaxed whitespace-pre-wrap">
+                  {result.actionPlan}
+                </div>
+              </div>
+              
+              <button onClick={handleExit} className="bg-goldenYellow text-charcoalDark w-full py-4 rounded-xl font-display text-sm uppercase tracking-widest shadow-lg active:scale-[0.98] hover:brightness-105 transition-all flex justify-center items-center gap-3">
+                <CheckCircle2 className="w-5 h-5" /> Done
+              </button>
             </div>
-            
-            <button onClick={handleExit} className="bg-charcoal text-white px-6 py-4 rounded-xl font-bold text-xs uppercase tracking-widest shadow-lg active:scale-95 transition-all w-full flex justify-center items-center gap-2">
-              <CheckCircle2 className="w-4 h-4 text-teal" /> Done
-            </button>
           </div>
         )}
       </div>

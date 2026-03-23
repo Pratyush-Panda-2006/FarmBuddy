@@ -1,16 +1,24 @@
 import { useState, useEffect } from 'react';
-import { Key, Save, CheckCircle2, Languages, Moon, Sun } from 'lucide-react';
+import { Key, Save, CheckCircle2, Languages, Moon, Sun, User2 } from 'lucide-react';
 import { getTranslation, LANGUAGES } from '../utils/i18n';
 import { useTheme } from '../utils/ThemeContext';
 
 export default function Profile() {
   const [apiKey, setApiKey] = useState('');
+  const [username, setUsername] = useState('');
+  const [phone, setPhone] = useState('');
   const [language, setLanguage] = useState('English');
   const [saved, setSaved] = useState(false);
   const [showError, setShowError] = useState(false);
   const { dark, toggle } = useTheme();
 
   useEffect(() => {
+    const storedUser = localStorage.getItem('SMART_AG_USER');
+    if (storedUser) setUsername(storedUser);
+
+    const storedPhone = localStorage.getItem('SMART_AG_PHONE');
+    if (storedPhone) setPhone(storedPhone);
+
     const storedKey = localStorage.getItem('GEMINI_API_KEY');
     if (storedKey) setApiKey(storedKey);
     
@@ -23,6 +31,8 @@ export default function Profile() {
   }, []);
 
   const handleSave = () => {
+    localStorage.setItem('SMART_AG_USER', username);
+    localStorage.setItem('SMART_AG_PHONE', phone);
     localStorage.setItem('GEMINI_API_KEY', apiKey);
     localStorage.removeItem('GEMINI_KEY_ERROR');
     setShowError(false);
@@ -41,58 +51,87 @@ export default function Profile() {
 
   return (
     <>
-      <header className="mb-6 sm:mb-8 mt-2">
-        <h2 className="text-charcoal dark:text-white font-black text-xl sm:text-2xl tracking-tighter">{t("Settings")}</h2>
-        <p className="text-sage font-semibold text-[10px] sm:text-xs mt-1">{t("Configure your app preferences")}</p>
+      <header className="mb-6 mt-2">
+        <h2 className="font-display text-charcoalDark dark:text-white text-3xl sm:text-4xl uppercase leading-none">{t("Settings")}</h2>
+        <p className="font-display tracking-widest uppercase text-charcoalDark/50 dark:text-white/50 text-[10px] sm:text-xs mt-2">{t("Configure your app preferences")}</p>
       </header>
 
-      <div className="bg-white dark:bg-charcoal/60 rounded-2xl sm:rounded-[20px] p-4 sm:p-6 border border-sage/10 dark:border-white/10 shadow-sm mb-6">
-        {/* API Key Section */}
-        <div className="flex items-center gap-3 mb-3 sm:mb-4">
-          <div className="w-9 h-9 sm:w-10 sm:h-10 bg-teal/10 rounded-xl flex items-center justify-center text-teal">
-            <Key className="w-4 h-4 sm:w-5 sm:h-5" />
+      <div className="bg-[#f8f9fa] dark:bg-white/5 rounded-xl p-5 sm:p-6 border border-charcoalDark/10 dark:border-white/10 shadow-sm mb-6">
+        
+        {/* Personal Info Section */}
+        <div className="flex items-center gap-3 mb-4">
+          <div className="w-12 h-12 bg-charcoalDark dark:bg-white rounded-lg flex items-center justify-center text-white dark:text-charcoalDark shrink-0">
+            <User2 className="w-5 h-5" />
           </div>
           <div>
-            <h3 className="text-charcoal dark:text-white font-bold text-xs sm:text-sm">Gemini API Key</h3>
-            <p className="text-sage text-[8px] sm:text-[10px] uppercase font-bold tracking-widest">From Google AI Studio</p>
+            <h3 className="font-display text-charcoalDark dark:text-white text-sm sm:text-base uppercase tracking-wider">{t("Personal Info")}</h3>
+            <p className="font-display text-charcoalDark/50 dark:text-white/50 text-[10px] uppercase tracking-widest">{t("Update your details")}</p>
           </div>
         </div>
 
-        <div className="space-y-3 sm:space-y-4 mb-6 sm:mb-8">
+        <div className="space-y-3 mb-8">
+          <input 
+            type="text" 
+            value={username}
+            onChange={(e) => setUsername(e.target.value)}
+            placeholder="Name" 
+            className="w-full bg-white dark:bg-charcoalDark h-14 rounded-lg px-4 font-body text-sm font-medium text-charcoalDark dark:text-white placeholder-charcoalDark/30 outline-none border border-charcoalDark/20 dark:border-white/10 focus:border-charcoalDark dark:focus:border-white transition-colors"
+          />
+          <input 
+            type="tel" 
+            value={phone}
+            onChange={(e) => setPhone(e.target.value)}
+            placeholder="Phone Number" 
+            className="w-full bg-white dark:bg-charcoalDark h-14 rounded-lg px-4 font-body text-sm font-medium text-charcoalDark dark:text-white placeholder-charcoalDark/30 outline-none border border-charcoalDark/20 dark:border-white/10 focus:border-charcoalDark dark:focus:border-white transition-colors"
+          />
+        </div>
+
+        {/* API Key Section */}
+        <div className="flex items-center gap-3 mb-4">
+          <div className="w-12 h-12 bg-charcoalDark rounded-lg flex items-center justify-center text-white shrink-0">
+            <Key className="w-5 h-5" />
+          </div>
+          <div>
+            <h3 className="font-display text-charcoalDark dark:text-white text-sm sm:text-base uppercase tracking-wider">Gemini API Key</h3>
+            <p className="font-display text-charcoalDark/50 dark:text-white/50 text-[10px] uppercase tracking-widest">From Google AI Studio</p>
+          </div>
+        </div>
+
+        <div className="space-y-3 mb-8">
           <input 
             type="password" 
             value={apiKey}
             onChange={(e) => setApiKey(e.target.value)}
             placeholder="AIzaSy..." 
-            className="w-full bg-offWhite dark:bg-white/10 h-10 sm:h-12 rounded-xl px-3 sm:px-4 text-xs sm:text-sm font-bold text-charcoal dark:text-white placeholder-sage/50 outline-none border border-sage/20 dark:border-white/10 focus:border-teal transition-colors"
+            className="w-full bg-white dark:bg-charcoalDark h-14 rounded-lg px-4 font-body text-sm font-medium text-charcoalDark dark:text-white placeholder-charcoalDark/30 outline-none border border-charcoalDark/20 dark:border-white/10 focus:border-charcoalDark dark:focus:border-white transition-colors"
           />
           {showError && (
-            <p className="text-[9px] sm:text-[10px] text-coralRed font-bold leading-tight">
+            <p className="font-body text-[10px] sm:text-xs text-coralRed font-medium leading-relaxed bg-coralRed/5 p-3 rounded-lg border border-coralRed/20">
               * Note: Do NOT use your Firebase App config API key here. It will result in a 404 error. Please generate a dedicated Gemini API key at aistudio.google.com
             </p>
           )}
         </div>
 
         {/* Language Section */}
-        <div className="flex items-center gap-3 mb-3 sm:mb-4">
-          <div className="w-9 h-9 sm:w-10 sm:h-10 bg-charcoal dark:bg-white/10 rounded-xl flex items-center justify-center text-white">
-            <Languages className="w-4 h-4 sm:w-5 sm:h-5" />
+        <div className="flex items-center gap-3 mb-4">
+          <div className="w-12 h-12 bg-goldenYellow rounded-lg flex items-center justify-center text-charcoalDark shrink-0">
+            <Languages className="w-5 h-5" />
           </div>
           <div>
-            <h3 className="text-charcoal dark:text-white font-bold text-xs sm:text-sm">{t("Primary Language")}</h3>
-            <p className="text-sage text-[8px] sm:text-[10px] uppercase font-bold tracking-widest">App & AI Translations</p>
+            <h3 className="font-display text-charcoalDark dark:text-white text-sm sm:text-base uppercase tracking-wider">{t("Primary Language")}</h3>
+            <p className="font-display text-charcoalDark/50 dark:text-white/50 text-[10px] uppercase tracking-widest">App & AI Translations</p>
           </div>
         </div>
 
-        <div className="space-y-3 sm:space-y-4 mb-6 sm:mb-8">
+        <div className="space-y-3 mb-8 relative">
           <select 
             value={language}
             onChange={(e) => setLanguage(e.target.value)}
-            className="w-full bg-offWhite dark:bg-white/10 h-10 sm:h-12 rounded-xl px-3 sm:px-4 text-xs sm:text-sm font-bold text-charcoal dark:text-white outline-none border border-sage/20 dark:border-white/10 focus:border-teal transition-colors appearance-none"
-            style={{ backgroundImage: `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' fill='%23a3b1ac' viewBox='0 0 16 16'%3E%3Cpath d='M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708z'/%3E%3C/svg%3E")`, backgroundRepeat: 'no-repeat', backgroundPosition: 'right 12px center' }}
+            className="w-full bg-white dark:bg-charcoalDark h-14 rounded-lg px-4 font-body text-sm font-medium text-charcoalDark dark:text-white outline-none border border-charcoalDark/20 dark:border-white/10 focus:border-charcoalDark dark:focus:border-white transition-colors appearance-none"
+            style={{ backgroundImage: `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' fill='%23171e19' viewBox='0 0 16 16'%3E%3Cpath d='M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708z'/%3E%3C/svg%3E")`, backgroundRepeat: 'no-repeat', backgroundPosition: 'right 16px center' }}
           >
             {LANGUAGES.map(lang => (
-              <option key={lang} value={lang} className="bg-white dark:bg-charcoal text-charcoal dark:text-white py-2">
+              <option key={lang} value={lang} className="bg-white dark:bg-charcoalDark text-charcoalDark dark:text-white py-2">
                 {lang}
               </option>
             ))}
@@ -100,30 +139,30 @@ export default function Profile() {
         </div>
 
         {/* Dark Mode Section */}
-        <div className="flex items-center justify-between mb-5 sm:mb-6">
+        <div className="flex items-center justify-between mb-8">
           <div className="flex items-center gap-3">
-            <div className={`w-9 h-9 sm:w-10 sm:h-10 rounded-xl flex items-center justify-center ${dark ? 'bg-amber-500/10 text-amber-400' : 'bg-charcoal text-white'}`}>
-              {dark ? <Moon className="w-4 h-4 sm:w-5 sm:h-5" /> : <Sun className="w-4 h-4 sm:w-5 sm:h-5" />}
+            <div className={`w-12 h-12 rounded-lg flex items-center justify-center transition-colors shrink-0 ${dark ? 'bg-amber-500 text-white' : 'bg-charcoalDark text-white'}`}>
+              {dark ? <Moon className="w-5 h-5" /> : <Sun className="w-5 h-5" />}
             </div>
             <div>
-              <h3 className="text-charcoal dark:text-white font-bold text-xs sm:text-sm">{t("Dark Mode")}</h3>
-              <p className="text-sage text-[8px] sm:text-[10px] uppercase font-bold tracking-widest">{t("Toggle dark/light theme")}</p>
+              <h3 className="font-display text-charcoalDark dark:text-white text-sm sm:text-base uppercase tracking-wider">{t("Dark Mode")}</h3>
+              <p className="font-display text-charcoalDark/50 dark:text-white/50 text-[10px] uppercase tracking-widest">{t("Toggle dark/light theme")}</p>
             </div>
           </div>
           <button 
             onClick={toggle}
-            className={`w-12 h-7 sm:w-14 sm:h-8 rounded-full flex items-center transition-all duration-300 px-1 ${dark ? 'bg-teal justify-end' : 'bg-sage/30 justify-start'}`}
+            className={`w-14 h-8 sm:w-16 sm:h-9 rounded-full flex items-center transition-all duration-300 px-1 border border-charcoalDark/20 dark:border-white/20 ${dark ? 'bg-charcoalDark justify-end' : 'bg-white justify-start'}`}
           >
-            <div className="w-5 h-5 sm:w-6 sm:h-6 bg-white rounded-full shadow-md transition-transform" />
+            <div className={`w-6 h-6 sm:w-7 sm:h-7 rounded-full shadow-md transition-transform ${dark ? 'bg-goldenYellow' : 'bg-charcoalDark'}`} />
           </button>
         </div>
 
         {/* Save Button */}
         <button 
           onClick={handleSave}
-          className="w-full h-10 sm:h-12 bg-charcoal dark:bg-teal text-white rounded-xl font-bold text-[10px] sm:text-xs uppercase tracking-[0.2em] flex items-center justify-center gap-2 shadow-lg active:scale-95 transition-all"
+          className="w-full h-14 bg-charcoalDark dark:bg-white text-white dark:text-charcoalDark rounded-xl font-display text-sm sm:text-base uppercase tracking-widest flex items-center justify-center gap-3 shadow-[0_4px_14px_0_rgba(23,30,25,0.39)] hover:shadow-[0_6px_20px_rgba(23,30,25,0.23)] border border-transparent dark:border-white/10 active:scale-[0.98] transition-all"
         >
-           {saved ? <><CheckCircle2 className="w-4 h-4 text-teal dark:text-white" /> {t("Saved!")}</> : <><Save className="w-4 h-4" /> {t("Save Key")}</>}
+           {saved ? <><CheckCircle2 className="w-5 h-5 text-teal" /> {t("Saved!")}</> : <><Save className="w-5 h-5 opacity-70" /> {t("Save Preferences")}</>}
         </button>
       </div>
     </>

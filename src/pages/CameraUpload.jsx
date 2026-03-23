@@ -2,6 +2,7 @@ import { useState, useEffect, useRef } from 'react';
 import { X, CheckCircle2, Camera, ImagePlus, AlertCircle } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import { GoogleGenerativeAI } from '@google/generative-ai';
+import { getLangForAI } from '../utils/i18n';
 
 export default function CameraUpload() {
   const navigate = useNavigate();
@@ -61,7 +62,8 @@ export default function CameraUpload() {
     stopCamera();
     
     const apiKey = localStorage.getItem('GEMINI_API_KEY');
-    const userLang = localStorage.getItem('SMART_AG_LANG') || 'English';
+    const rawLang = localStorage.getItem('SMART_AG_LANG') || 'English';
+    const userLang = getLangForAI(rawLang);
 
     if (!apiKey) {
       alert("Please configure your Gemini API Key in the Settings page (Profile) first.");
@@ -73,21 +75,37 @@ export default function CameraUpload() {
     
     try {
       const genAI = new GoogleGenerativeAI(apiKey);
-      const prompt = `Analyze this image. FIRST, determine if the image actually contains a crop (plant/leaf/fruit/field) or livestock (cattle/poultry/farm animal). 
-      If it does NOT contain crops or livestock, return ONLY this JSON: { "isValid": false }
+      const prompt = `Analyze this image. FIRST, determine if the image contains any agricultural subject.
+
+CLASSIFICATION RULES (VERY IMPORTANT):
+- "Livestock" = ANY live animal including but not limited to: cow, buffalo, bull, ox, goat, sheep, chicken, hen, rooster, duck, turkey, pig, horse, donkey, camel, rabbit, fish, shrimp, bee, silkworm, dog (farm), cat (farm), pigeon, quail, emu, yak, mule, or any other farm/domestic animal.
+- "Crop" = ANY plant, vegetable, fruit, grain, flower, tree, or agricultural produce including but not limited to: wheat, rice, maize, corn, millet, sorghum, barley, oats, sugarcane, cotton, jute, tea, coffee, rubber, coconut, arecanut, cashew, pepper, cardamom, turmeric, ginger, chilli, onion, garlic, potato, tomato, brinjal, carrot, peas, beans, cucumber, pumpkin, spinach, cabbage, cauliflower, okra, radish, beetroot, banana, mango, apple, orange, grape, papaya, guava, pomegranate, lemon, watermelon, mushroom, lettuce, soybean, groundnut, sunflower, mustard, sesame, linseed, or any other plant/crop/vegetable/fruit/flower/herb/spice.
+
+If the image does NOT contain any livestock or crop/plant, return ONLY this JSON: { "isValid": false }
       
-      If it DOES contain crops or livestock, return ONLY this valid JSON: 
-      {
-        "isValid": true,
-        "type": "Crop or Livestock",
-        "identity": "Specific crop or livestock breed",
-        "diagnosis": "Suspected disease/pest (or say 'Healthy')",
-        "severity": "Critical, Moderate, or Healthy",
-        "healthPercentage": <number from 0 to 100>,
-        "actionPlan": "Step-by-step treatment protocols"
-      }
+If it DOES contain crops or livestock, return ONLY this valid JSON: 
+{
+  "isValid": true,
+  "type": "Crop or Livestock (use EXACTLY one of these two words based on the classification rules above)",
+  "identity": "Specific crop variety or livestock breed",
+  "diagnosis": "Suspected disease/pest/deficiency (or say 'Healthy')",
+  "severity": "Critical, Moderate, or Healthy",
+  "healthPercentage": <number from 0 to 100>,
+  "affectedArea": "For Livestock: body part affected (e.g. skin, udder, hoof, eye). For Crops: affected plant part (e.g. leaf, stem, root, fruit)",
+  "possibleConditions": ["Most likely condition", "Second possibility", "Third possibility"],
+  "immediateCare": "First-aid or immediate steps a farmer should take right now before professional help arrives",
+  "urgency": "Immediate, Within 24h, or Routine",
+  "actionPlan": "Detailed step-by-step treatment or management protocols"
+}
       
-      CRITICAL INSTRUCTION: Translate the values of 'identity', 'diagnosis', 'severity', and 'actionPlan' into ${userLang}. Keep JSON keys strictly in English.`;
+IMPORTANT RULES:
+- The "type" field MUST be exactly "Crop" or "Livestock" — no other values.
+- For 'possibleConditions', always provide exactly 3 differential diagnoses ranked by likelihood. If the subject is healthy, return ["Healthy", "No issues detected", "Continue monitoring"].
+- For 'affectedArea', be specific about which part of the plant or animal is affected.
+- For 'immediateCare', provide practical first-aid steps a farmer can do immediately.
+- For 'urgency', assess how urgently professional help (vet or agronomist) is needed.
+      
+CRITICAL INSTRUCTION: Translate the values of 'identity', 'diagnosis', 'severity', 'affectedArea', 'possibleConditions', 'immediateCare', 'urgency', and 'actionPlan' into ${userLang}. Keep JSON keys strictly in English.`;
       
       const imagePart = { inlineData: { data: base64Data, mimeType: "image/jpeg" } };
 
@@ -269,17 +287,57 @@ export default function CameraUpload() {
               </div>
             </div>
             
+            {/* Diagnosis + Severity + Urgency */}
             <div className="border-t border-sage/10 pt-4 pb-2">
                <p className="text-[9px] text-sage font-bold uppercase tracking-widest mb-1">Diagnosis</p>
                <p className="font-extrabold text-charcoal">{result.diagnosis}</p>
-               <div className={`mt-3 text-xs px-3 py-1.5 rounded-lg inline-block font-bold uppercase tracking-wider ${result.severity === 'Critical' ? 'bg-coralRed/10 text-coralRed' : result.severity === 'Healthy' ? 'bg-teal/10 text-teal' : 'bg-sage/20 text-charcoal'}`}>
-                 Severity: {result.severity}
+               <div className="flex flex-wrap gap-2 mt-3">
+                 <div className={`text-xs px-3 py-1.5 rounded-lg inline-block font-bold uppercase tracking-wider ${result.severity === 'Critical' ? 'bg-coralRed/10 text-coralRed' : result.severity === 'Healthy' ? 'bg-teal/10 text-teal' : 'bg-sage/20 text-charcoal'}`}>
+                   Severity: {result.severity}
+                 </div>
+                 {result.urgency && (
+                   <div className={`text-xs px-3 py-1.5 rounded-lg inline-block font-bold uppercase tracking-wider ${result.urgency === 'Immediate' ? 'bg-coralRed/10 text-coralRed border border-coralRed/20' : result.urgency === 'Within 24h' ? 'bg-amber-500/10 text-amber-600 border border-amber-500/20' : 'bg-teal/10 text-teal border border-teal/20'}`}>
+                     🕐 {result.urgency}
+                   </div>
+                 )}
                </div>
             </div>
+
+            {/* Affected Area */}
+            {result.affectedArea && (
+              <div className="border-t border-sage/10 pt-4 pb-2">
+                <p className="text-[9px] text-sage font-bold uppercase tracking-widest mb-1">Affected Area</p>
+                <p className="font-bold text-charcoal text-sm">{result.affectedArea}</p>
+              </div>
+            )}
+
+            {/* Possible Conditions */}
+            {result.possibleConditions && result.possibleConditions.length > 0 && (
+              <div className="border-t border-sage/10 pt-4 pb-2">
+                <p className="text-[9px] text-sage font-bold uppercase tracking-widest mb-2">Possible Conditions</p>
+                <div className="space-y-1.5">
+                  {result.possibleConditions.map((cond, i) => (
+                    <div key={i} className="flex items-center gap-2">
+                      <span className={`w-5 h-5 rounded-full flex items-center justify-center text-[9px] font-black text-white shrink-0 ${i === 0 ? 'bg-coralRed' : i === 1 ? 'bg-amber-500' : 'bg-sage'}`}>{i + 1}</span>
+                      <p className="text-sm font-semibold text-charcoal">{cond}</p>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )}
+
+            {/* Immediate Care */}
+            {result.immediateCare && (
+              <div className="border-t border-sage/10 pt-4 pb-2">
+                <p className="text-[9px] text-sage font-bold uppercase tracking-widest mb-1">⚡ Immediate Care</p>
+                <p className="text-sm font-semibold text-charcoal leading-relaxed">{result.immediateCare}</p>
+              </div>
+            )}
             
+            {/* Action Plan */}
             <div className="border-t border-sage/10 pt-4 mb-5">
               <p className="text-[9px] text-sage font-bold uppercase tracking-widest mb-2">Precaution & Action Plan</p>
-              <p className="text-sm font-semibold text-charcoal leading-relaxed">{result.actionPlan}</p>
+              <p className="text-sm font-semibold text-charcoal leading-relaxed whitespace-pre-wrap">{result.actionPlan}</p>
             </div>
             
             <button onClick={handleExit} className="bg-charcoal text-white px-6 py-4 rounded-xl font-bold text-xs uppercase tracking-widest shadow-lg active:scale-95 transition-all w-full flex justify-center items-center gap-2">

@@ -1,8 +1,7 @@
 import { useState, useEffect } from 'react';
-import { TrendingUp, Activity, AlertTriangle, Image as ImageIcon, X, Trash2, Sun, Moon } from 'lucide-react';
+import { TrendingUp, Activity, AlertTriangle, Image as ImageIcon, X, Trash2 } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import { getTranslation } from '../utils/i18n';
-import { useTheme } from '../utils/ThemeContext';
 import ExportShare from '../components/ExportShare';
 
 export default function Home() {
@@ -11,7 +10,7 @@ export default function Home() {
   const [scans, setScans] = useState([]);
   const [filter, setFilter] = useState('Recent');
   const [selectedScan, setSelectedScan] = useState(null);
-  const { dark, toggle } = useTheme();
+
 
   useEffect(() => {
     const user = localStorage.getItem('SMART_AG_USER');
@@ -26,30 +25,25 @@ export default function Home() {
 
   const issuesPicked = scans.filter(s => s.severity && s.severity !== 'Healthy').length;
   const recentInsight = scans.length > 0 ? scans[0].diagnosis : getTranslation("No scans yet");
-  const healthScore = scans.length > 0 ? Math.round(((scans.length - issuesPicked) / scans.length) * 100) : 100;
 
-  let healthStatus = "Good";
-  let healthColor = "text-teal";
-  let healthBg = "bg-teal/20";
-  let healthBorder = "border-teal/20";
-  let healthGlow1 = "bg-teal/10";
-  let healthGlow2 = "bg-sage/10";
+  // Separate health for crops and livestock
+  const cropScans = scans.filter(s => s.type === 'Crop');
+  const livestockScans = scans.filter(s => s.type === 'Livestock');
 
-  if (healthScore < 50) {
-    healthStatus = "Critical";
-    healthColor = "text-coralRed";
-    healthBg = "bg-coralRed/20";
-    healthBorder = "border-coralRed/20";
-    healthGlow1 = "bg-coralRed/10";
-    healthGlow2 = "bg-coralRed/5";
-  } else if (healthScore < 80) {
-    healthStatus = "Fair";
-    healthColor = "text-amber-500";
-    healthBg = "bg-amber-500/20";
-    healthBorder = "border-amber-500/20";
-    healthGlow1 = "bg-amber-500/10";
-    healthGlow2 = "bg-amber-500/5";
-  }
+  const cropIssues = cropScans.filter(s => s.severity && s.severity !== 'Healthy').length;
+  const livestockIssues = livestockScans.filter(s => s.severity && s.severity !== 'Healthy').length;
+
+  const cropHealthScore = cropScans.length > 0 ? Math.round(((cropScans.length - cropIssues) / cropScans.length) * 100) : 100;
+  const livestockHealthScore = livestockScans.length > 0 ? Math.round(((livestockScans.length - livestockIssues) / livestockScans.length) * 100) : 100;
+
+  const getHealthInfo = (score) => {
+    if (score < 50) return { status: 'Critical', color: 'text-coralRed', bg: 'bg-coralRed/20', border: 'border-coralRed/20' };
+    if (score < 80) return { status: 'Fair', color: 'text-amber-500', bg: 'bg-amber-500/20', border: 'border-amber-500/20' };
+    return { status: 'Good', color: 'text-teal', bg: 'bg-teal/20', border: 'border-teal/20' };
+  };
+
+  const cropHealth = getHealthInfo(cropHealthScore);
+  const livestockHealth = getHealthInfo(livestockHealthScore);
 
   const getFilteredScans = () => {
     if (filter === 'Crops') return scans.filter(s => s.type === 'Crop');
@@ -78,34 +72,39 @@ export default function Home() {
 
   return (
     <>
-      <header className="flex justify-between items-center mb-6 sm:mb-8 mt-2">
-        <div>
-          <p className="font-display text-goldenYellow text-xs sm:text-sm uppercase tracking-[0.2em] mb-2 drop-shadow-sm font-semibold">{t("Welcome to FarmBuddy")}</p>
-          <h1 className="font-display text-charcoalDark dark:text-white text-4xl sm:text-5xl uppercase leading-none font-bold tracking-tight">{username}</h1>
-        </div>
-        <div className="relative">
-          <button onClick={toggle} className="w-12 h-12 bg-[#f8f9fa] dark:bg-white/5 rounded-xl border border-charcoalDark/10 dark:border-white/10 flex items-center justify-center text-charcoalDark dark:text-white shadow-sm transition-colors hover:bg-charcoalDark/5 dark:hover:bg-white/10">
-            {dark ? <Sun className="w-6 h-6" /> : <Moon className="w-6 h-6" />}
-          </button>
-        </div>
+      <header className="flex flex-col items-center text-center mb-8 sm:mb-10 mt-4">
+        <p className="font-display text-charcoalDark dark:text-goldenYellow text-lg sm:text-xl uppercase tracking-[0.25em] mb-2 drop-shadow-sm font-black">{t("Welcome to FarmBuddy")}</p>
+        <h1 className="font-display text-charcoalDark dark:text-white text-5xl sm:text-6xl uppercase leading-none font-bold tracking-tight">{username}</h1>
       </header>
 
-      {/* Main Stats Card */}
-      <div className="bg-charcoalDark rounded-2xl p-6 sm:p-8 text-white mb-6 relative overflow-hidden shadow-xl border border-charcoalDark/10 dark:border-white/5">
-        <div className={`absolute -top-10 -right-10 w-48 h-48 rounded-full ${healthBg} blur-3xl opacity-20 pointer-events-none`}></div>
-        
-        <div className="flex justify-between items-center relative z-10">
-          <div>
-            <p className="font-display text-white/50 text-xs sm:text-sm uppercase tracking-widest mb-2">{t("Overall Health")}</p>
-            <h2 className="font-display text-5xl sm:text-6xl tracking-normal leading-[0.9] mb-2 text-white uppercase">
-              {t(healthStatus)}
+      {/* Separate Health Cards for Crops & Livestock */}
+      <div className="grid grid-cols-2 gap-3 sm:gap-4 mb-6">
+        {/* Crop Health */}
+        <div className="bg-charcoalDark rounded-2xl p-5 sm:p-6 text-white relative overflow-hidden shadow-xl border border-charcoalDark/10 dark:border-white/5">
+          <div className={`absolute -top-8 -right-8 w-32 h-32 rounded-full ${cropHealth.bg} blur-3xl opacity-20 pointer-events-none`}></div>
+          <div className="relative z-10">
+            <p className="font-display text-white/50 text-[10px] sm:text-xs uppercase tracking-widest mb-2">🌾 {t("Crop Health")}</p>
+            <h2 className="font-display text-3xl sm:text-4xl tracking-normal leading-[0.9] mb-3 text-white uppercase">
+              {t(cropHealth.status)}
             </h2>
+            <div className={`inline-flex items-center gap-1.5 font-display text-xs tracking-widest px-3 py-1.5 bg-white/5 backdrop-blur-md rounded-lg border ${cropHealth.border}`}>
+              <TrendingUp className={`${cropHealth.color} w-4 h-4`} />
+              <span className={cropHealth.color}>{cropHealthScore}%</span>
+            </div>
           </div>
-          
-          <div className="flex flex-col items-end shrink-0 pt-2">
-            <div className={`flex items-center gap-2 font-display text-sm sm:text-base tracking-widest px-4 py-2 bg-white/5 backdrop-blur-md rounded-xl border ${healthBorder}`}>
-              <TrendingUp className={`${healthColor} w-5 h-5`} />
-              <span className={healthColor}>{healthScore}%</span>
+        </div>
+
+        {/* Livestock Health */}
+        <div className="bg-charcoalDark rounded-2xl p-5 sm:p-6 text-white relative overflow-hidden shadow-xl border border-charcoalDark/10 dark:border-white/5">
+          <div className={`absolute -top-8 -right-8 w-32 h-32 rounded-full ${livestockHealth.bg} blur-3xl opacity-20 pointer-events-none`}></div>
+          <div className="relative z-10">
+            <p className="font-display text-white/50 text-[10px] sm:text-xs uppercase tracking-widest mb-2">🐄 {t("Livestock Health")}</p>
+            <h2 className="font-display text-3xl sm:text-4xl tracking-normal leading-[0.9] mb-3 text-white uppercase">
+              {t(livestockHealth.status)}
+            </h2>
+            <div className={`inline-flex items-center gap-1.5 font-display text-xs tracking-widest px-3 py-1.5 bg-white/5 backdrop-blur-md rounded-lg border ${livestockHealth.border}`}>
+              <TrendingUp className={`${livestockHealth.color} w-4 h-4`} />
+              <span className={livestockHealth.color}>{livestockHealthScore}%</span>
             </div>
           </div>
         </div>
